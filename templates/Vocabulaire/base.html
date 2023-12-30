@@ -2,7 +2,7 @@
 <html lang="en" data-bs-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <title>{% block title %}{% endblock %}</title>
+  <title>{% block title %}{% endblock %} - Russisch Vocabulaire</title>
   <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
     <symbol id="house-door-fill" viewBox="0 0 16 16">
       <path
@@ -52,29 +52,54 @@
         margin-right: 50px;
       }
 
-select {
-  /* Additional styling for the select element */
-}
+      #backToTopBtn {
+        display: none; /* Initially hide the button */
+        position: fixed;
+        bottom: 20px;
+        right: 15%;
+      }
+
   </style>
+
+  <script>
+  // Function to scroll to the top of the page
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Add smooth scrolling behavior
+    });
+  }
+
+  // Show/hide the "Back to Top" button based on scroll position
+  window.addEventListener('scroll', function() {
+    let backToTopBtn = document.getElementById('backToTopBtn');
+    if (window.scrollY > 200) {
+      backToTopBtn.style.display = 'block';
+    } else {
+      backToTopBtn.style.display = 'none';
+    }
+  });
+  </script>
 </head>
 
 
 <body>
-<div class="container">
+<button id="backToTopBtn" onclick="scrollToTop()" class="btn btn-light">Terug naar boven</button>
+
+  <div class="container">
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
       <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
         <span class="fs-4">RT2-omgeving</span>
       </a>
 
-      <ul class="nav nav-pills">
-        <li class="nav-item"><a href="/" class="nav-link{% if breadcrumb.0 %}"{%  else %} active" aria-current="page"{% endif %}>Startpagina</a></li>
-        <li class="nav-item"><a href="{% url 'russian' %}" class="nav-link{% if breadcrumb.0 == 'russian' %} active" aria-current="page"{% else %}"{% endif %}>R. naar N.</a></li>
-        <li class="nav-item"><a href="{% url 'dutch' %}" class="nav-link{% if breadcrumb.0 == 'dutch' %} active" aria-current="page"{% else %}"{% endif %}">N. naar R.</a></li>
-{#        <li class="nav-item"><a href="{% url 'homework' %}" class="nav-link">Huiswerk</a></li>#}
+      <ul class="nav nav-tabs">
+        <li class="nav-item"><a href="/" class="nav-link{% if not breadcrumb.0.1 %} active" aria-current="page{% endif %}">Startpagina</a></li>
+        <li class="nav-item"><a href="{% url 'russian' %}" class="nav-link{% if breadcrumb.0.1 == 'russisch' %} active" aria-current="page{% endif %}">Russisch naar Nederlands</a></li>
+        <li class="nav-item"><a href="{% url 'dutch' %}" class="nav-link{% if breadcrumb.0.1 == 'nederlands' %} active" aria-current="page{% endif %}">Nederlands naar Russisch</a></li>
+        <li class="nav-item"><a href="{% url 'homework' %}" class="nav-link{% if breadcrumb.0.1 == 'huiswerk' %} active" aria-current="page{% endif %}">Huiswerk</a></li>
       </ul>
     </header>
   </div>
-
 <div class="container">
   <div class="container my-5">
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
@@ -87,10 +112,10 @@ select {
             <span class="visually-hidden">Home</span>
           </a>
         </li>
-        {% for item in breadcrumb %}
+        {% for link, name in breadcrumb %}
           <li class="breadcrumb-item">
-            {% if not forloop.last %}<a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url item %}">{{ item|capfirst }}</a>
-            {% else %}{{ item|capfirst }}{% endif %}
+            {% if not forloop.last %}<a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url link %}">{{ name|capfirst }}</a>
+            {% else %}{{ name|capfirst }}{% endif %}
           </li>
         {% endfor %}
       </ol>

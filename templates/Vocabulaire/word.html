@@ -1,13 +1,13 @@
 {% extends 'Vocabulaire/base.html' %}
 
-{% block title %}{{ word }} - Russisch Vocabulaire{% endblock %}
+{% block title %}{{ word }}{% endblock %}
 
 {% block header %}
 {% endblock %}
 
 {% block content %}
 
-  {% if breadcrumb.0 == 'russian' %}
+  {% if breadcrumb.0.1 == 'russisch' %}
     <h2>Russisch naar Nederlands: <i>
       <a href="http://en.wiktionary.org/wiki/{{ word }}" target="_blank">{{ word }}</a></i></h2>
   {% else %}
