@@ -1,0 +1,42 @@
+{% extends 'Vocabulaire/base.html' %}
+
+{% block title %}{{ homework|capfirst }}{% endblock %}
+
+{% block content %}
+
+    <ul class="list-group">
+      <li class="list-group-item{% if homework.done %} list-group-item-success{% elif homework.deadline < today %} list-group-item-warning{% endif %}">
+          <div class="card-body">
+            <h5 class="card-title">{{ homework|capfirst }}</h5>
+              <small>Deadline:</small> <i>{{ homework.deadline|date:"D d M Y" }}</i><br>
+              <small>Toegevoegd:</small> <i>{{ homework.created|date:"D d M Y" }} {{ homework.created|time:"H:i" }}</i><br>
+              <small>Aantal opdrachten:</small> <i>{{ homework.task_set.all|length }}</i><br>
+            <small>Ingeleverd:</small> <i>{% if homework.done %}<span style="color: green">Ja</span>{% else %}<span style="color: red">Nog niet</span>{% endif %}</i>
+          </div>
+      </li>
+  </ul>
+
+
+<div class="accordion" id="accordionExample">
+{% for task in tasks %}
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#task{{ task.id }}" aria-expanded="true" aria-controls="collapseOne">
+        <b>Opdracht #{{ forloop.counter }}</b>
+      </button>
+    </h2>
+    <div id="task{{ task.id }}" class="accordion-collapse collapse{% if forloop.first %} show{% endif %}" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <span class="form-control" style="background-color: #002244">
+          {{ task.description|capfirst }}
+        </span>
+        <hr>
+        {{ task.content|safe }}
+      </div>
+    </div>
+  </div>
+{% empty %}
+  Helemaal geen idee hoe het gebeurd is, maar er zijn geen opdrachten voor dit huiswerk!
+{% endfor %}
+</div>
+{% endblock %}

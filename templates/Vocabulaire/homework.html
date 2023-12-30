@@ -1,0 +1,20 @@
+{% extends 'Vocabulaire/base.html' %}
+
+{% block title %}Huiswerk{% endblock %}
+
+{% block content %}
+  <ul class="list-group">
+    {% for homework in homeworks %}
+      <li class="list-group-item{% if homework.done %} list-group-item-success{% elif homework.deadline < today %} list-group-item-warning{% endif %}">
+          <div class="card-body">
+            <a href="{% url 'tasks' homework.id %}"><h5 class="card-title">{{ homework|capfirst }}</h5></a>
+              <small>Deadline:</small> <i>{{ homework.deadline|date:"D d M Y" }}</i><br>
+              <small>Toegevoegd:</small> <i>{{ homework.created|date:"D d M Y" }} {{ homework.created|time:"H:i" }}</i><br>
+              <small>Aantal opdrachten:</small> <i>{{ homework.task_set.all|length }}</i><br>
+          </div>
+      </li>
+    {% empty %}
+      Er is nog geen huiswerk gegeven!
+    {% endfor %}
+  </ul>
+{% endblock %}
