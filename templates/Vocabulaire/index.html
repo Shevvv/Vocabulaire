@@ -1,0 +1,15 @@
+{% extends "Vocabulaire/base.html" %}
+
+{% block title %}Russisch Vocabulaire{% endblock %}
+
+{% block content %}
+    <h1>Goeiemiddag, Eric!</h1>
+
+    <p>Hier kun je vertalingen van geleerde woorden en opdrachten voor de volgende
+    les vinden. In de toekomst zou je misschien ook je antwoorden hier kunnen
+    opslaan.</p>
+
+    <h3><a href="{% url 'dutch' %}">Nederlands naar Russisch</a> -
+        <a href="{% url 'russian' %}">Russisch naar Nederlands</a></h3>
+
+{% endblock content %}

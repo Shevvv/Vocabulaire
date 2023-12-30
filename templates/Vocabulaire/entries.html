@@ -1,0 +1,56 @@
+{% extends 'Vocabulaire/base.html' %}
+
+{% block title %}{{ subtitle }} - Russisch Vocabulaire{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+  <h2>{{ subtitle }}: Woordenlijst</h2>
+
+  <div class="filters">
+    <select name="dropdown" class="form-select mt-5 mb-4" id="parts-of-speech">
+      <option value="option1">Alle woordstoorten</option>
+      <option value="option2">Option 2</option>
+      <option value="option3">Option 3</option>
+    </select>
+    <div class="search-bar">
+      <input id="search_here" class="form-control mt-5 mb-4 ml-3" placeholder="Begin het woord te typen..." />
+    </div>
+  </div>
+
+
+  <ul>
+    <div id="box">
+      {% for lexeme in lexemes %}
+    <li><a href="{% url link lexeme.lexeme %}">{{ lexeme }}</a></li>
+      {% empty %}
+    <li>Het woordenboek is leeg.</li>
+      {% endfor %}
+    </div>
+  </ul>
+
+
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    const data = '{{ qs_json }}'
+    let url = '{{ url_link }}'
+    const rdata = JSON.parse(data.replace(/&quot;/g, '"'))
+    const input = document.getElementById('search_here')
+
+    let filteredArr = []
+
+    input.addEventListener('keyup', (e) =>{
+        box.innerHTML = ""
+        filteredArr = rdata.filter(word=> word['lexeme'].startsWith(e.target.value))
+        if (filteredArr.length >0){
+            filteredArr.map(word=>{
+                box.innerHTML += `<li><a href="${url.replace('$', word['lexeme'])}">${word['lexeme']}</a></li>`
+            })
+        }
+    })
+
+  </script>
+{%  endblock %}
