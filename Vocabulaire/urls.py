@@ -27,4 +27,6 @@ urlpatterns = [
     path("nederlands", views.dutch, name="dutch"),
     path("russisch/<word_lexeme>/", views.russian_word, name='russian_word'),
     path("nederlands/<word_lexeme>/", views.dutch_word, name='dutch_word'),
+    path("huiswerk/", views.homework, name='homework'),
+    path("huiswerk/<homework_id>/", views.tasks, name='tasks'),
 ]

@@ -1,6 +1,6 @@
 {% extends 'Vocabulaire/base.html' %}
 
-{% block title %}{{ subtitle }} - Russisch Vocabulaire{% endblock %}
+{% block title %}{{ subtitle }}{% endblock %}
 
 {% block header %}
 {% endblock %}
@@ -10,9 +10,10 @@
 
   <div class="filters">
     <select name="dropdown" class="form-select mt-5 mb-4" id="parts-of-speech">
-      <option value="option1">Alle woordstoorten</option>
-      <option value="option2">Option 2</option>
-      <option value="option3">Option 3</option>
+      <option value="default">Alle woordsoorten</option>
+      {% for part in parts_of_speech %}
+        <option value="{{ part.id }}">{{ part|capfirst }}</option>
+      {% endfor %}
     </select>
     <div class="search-bar">
       <input id="search_here" class="form-control mt-5 mb-4 ml-3" placeholder="Begin het woord te typen..." />
@@ -20,37 +21,56 @@
   </div>
 
 
-  <ul>
-    <div id="box">
+  <div id="box">
+    <ul>
       {% for lexeme in lexemes %}
-    <li><a href="{% url link lexeme.lexeme %}">{{ lexeme }}</a></li>
+    <li part-of-speech="{% for part in lexeme.part_of_speech.all %}{{ part.id }}{% if not forloop.last %}-{% endif %}{% endfor %}"><a href="{% url link lexeme %}">{{ lexeme }}</a></li>
       {% empty %}
     <li>Het woordenboek is leeg.</li>
       {% endfor %}
+    </ul>
+    <div id="empty" style="display: none">
+      Sorry, er is niks gevonden :(
     </div>
-  </ul>
+  </div>
 
 
 {% endblock %}
 
 {% block scripts %}
   <script>
-    const data = '{{ qs_json }}'
-    let url = '{{ url_link }}'
-    const rdata = JSON.parse(data.replace(/&quot;/g, '"'))
     const input = document.getElementById('search_here')
+    const options = document.getElementById('parts-of-speech')
+    const empty = document.getElementById('empty')
 
-    let filteredArr = []
-
-    input.addEventListener('keyup', (e) =>{
-        box.innerHTML = ""
-        filteredArr = rdata.filter(word=> word['lexeme'].startsWith(e.target.value))
-        if (filteredArr.length >0){
-            filteredArr.map(word=>{
-                box.innerHTML += `<li><a href="${url.replace('$', word['lexeme'])}">${word['lexeme']}</a></li>`
+    let entries = document.querySelectorAll('#box li')
+    function filterEntries() {
+        entries.forEach(entry => {
+            let parts = entry.getAttribute('part-of-speech').split('-')
+            let inputMatch = false
+            entry.textContent.toLowerCase().split(' ').forEach(word => {
+                if (word.startsWith(input.value.toLowerCase())) {
+                    inputMatch = true;
+                }
             })
-        }
-    })
 
+            if ((input.value === '' || inputMatch) &&
+            (options.value === "default" || parts.includes(options.value))) {
+                entry.style.display = 'list-item';
+            } else {
+                entry.style.display = 'none';
+            }
+        })
+
+        let visible = document.querySelectorAll('#box li[style="display: list-item;"]')
+        if (visible.length === 0) {
+            empty.style.display = 'block'
+        } else {
+            empty.style.display = 'none'
+        }
+    }
+
+    options.addEventListener('click', filterEntries)
+    input.addEventListener('keyup', filterEntries)
   </script>
 {%  endblock %}

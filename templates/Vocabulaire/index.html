@@ -1,15 +1,12 @@
 {% extends "Vocabulaire/base.html" %}
 
-{% block title %}Russisch Vocabulaire{% endblock %}
+{% block title %}Startpagina{% endblock %}
 
 {% block content %}
-    <h1>Goeiemiddag, Eric!</h1>
+    <h1>{% if hour < 6 %}Goeienacht!{% elif hour < 12 %}Goeiemorgen!{% elif hour < 18 %}Goeiemiddag!{% else %}Goeienavond!{% endif %}</h1>
 
     <p>Hier kun je vertalingen van geleerde woorden en opdrachten voor de volgende
-    les vinden. In de toekomst zou je misschien ook je antwoorden hier kunnen
-    opslaan.</p>
-
-    <h3><a href="{% url 'dutch' %}">Nederlands naar Russisch</a> -
-        <a href="{% url 'russian' %}">Russisch naar Nederlands</a></h3>
+    les vinden. Die bevinden zich boven naar rechts. In de toekomst zou je misschien ook je antwoorden hier kunnen
+    opslaan! Als je vragen over het gebruik van deze site hebt, neem gewoon contact met mij op!</p>
 
 {% endblock content %}
