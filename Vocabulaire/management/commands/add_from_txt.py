@@ -48,7 +48,7 @@ def retrieve_word(word_str: str, model):
         print(f"{model._meta.verbose_name.title()} '{word_str}' already "
               f"exists. Retrieving from database")
     else:
-        print(f"{model._meta.verbose_name.title()}' {word_str}' created "
+        print(f"{model._meta.verbose_name.title()} '{word_str}' created "
               f"successfully")
     return word
 
