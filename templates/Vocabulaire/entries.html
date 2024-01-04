@@ -20,11 +20,11 @@
     </div>
   </div>
 
-
   <div id="box">
     <ul>
-      {% for lexeme in lexemes %}
-    <li part-of-speech="{% for part in lexeme.part_of_speech.all %}{{ part.id }}{% if not forloop.last %}-{% endif %}{% endfor %}"><a href="{% url link lexeme %}">{{ lexeme }}</a></li>
+      {% for lexeme, translations in lexemes.items %}
+        <li part-of-speech="{% for part in lexeme.part_of_speech.all %}{{ part.id }}{% if not forloop.last %}-{% endif %}{% endfor %}"><a href="{% url link lexeme %}">{{ lexeme }}</a>
+          <small>Vertalingen: {% for translation in translations %}<a href="{% url t_link translation %}" style="color: #00a0d0">{{ translation }}</a>{% if not forloop.last %}, {% endif %}{% empty %}geen vertalingen{% endfor %}.</small></li>
       {% empty %}
     <li>Het woordenboek is leeg.</li>
       {% endfor %}

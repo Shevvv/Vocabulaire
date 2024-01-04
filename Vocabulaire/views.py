@@ -14,9 +14,11 @@ def index(request):
 
 def dutch(request):
     lexemes = DutchWord.objects.order_by(Lower('lexeme'))
+    lexemes = {str(lexeme): lexeme.translations.all() for lexeme in lexemes}
     parts_of_speech = PartOfSpeech.objects.order_by('name')
     subtitle = "Nederlands naar Russisch"
     link = 'dutch_word'
+    t_link = 'russian_word'
     breadcrumb = ['dutch']
     breadcrumb_names = [unquote(page)
                         for page in reverse('dutch').strip("/").split("/")]
@@ -25,6 +27,7 @@ def dutch(request):
         'parts_of_speech': parts_of_speech,
         'subtitle': subtitle,
         'link': link,
+        't_link': t_link,
         'breadcrumb': list(zip(breadcrumb, breadcrumb_names)),
     }
     return render(request, "Vocabulaire/entries.html", context)
@@ -33,9 +36,11 @@ def dutch(request):
 def russian(request):
     lexemes = sorted(RussianWord.objects.all(),
                      key=lambda x: x.lexeme.lower())
+    lexemes = {str(lexeme): lexeme.dutchword_set.all() for lexeme in lexemes}
     parts_of_speech = PartOfSpeech.objects.order_by('name')
     subtitle = "Russisch naar Nederlands"
     link = 'russian_word'
+    t_link = 'dutch_word'
     breadcrumb = ['russian']
     breadcrumb_names = [unquote(page)
                         for page in reverse('russian').strip("/").split("/")]
@@ -44,6 +49,7 @@ def russian(request):
         'parts_of_speech': parts_of_speech,
         'subtitle': subtitle,
         'link': link,
+        't_link': t_link,
         'breadcrumb': list(zip(breadcrumb, breadcrumb_names)),
     }
     return render(request, "Vocabulaire/entries.html", context)
