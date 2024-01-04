@@ -4,6 +4,7 @@ from ckeditor.fields import RichTextField
 
 class PartOfSpeech(models.Model):
     name = models.CharField(max_length=200, unique=True)
+    abbr = models.CharField(max_length=15, unique=True)
 
     class Meta:
         verbose_name_plural = 'parts of speech'
