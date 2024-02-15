@@ -1,0 +1,4 @@
+type: homework
+id: 8
+name: Nieuw huiswerk toegevoegd
+text: Er is nu een nieuw huiswerk beschikbaar voor het thema %LINK. Klik op de link om naar het huiswerk te gaan!

@@ -9,4 +9,16 @@
     les vinden. Die bevinden zich boven naar rechts. In de toekomst zou je misschien ook je antwoorden hier kunnen
     opslaan! Als je vragen over het gebruik van deze site hebt, neem gewoon contact met mij op!</p>
 
+  {% for update in updates %}
+    <br><hr><span><small class="d-inline-flex mb-3 px-2 py-1 fw-semibold text-success-emphasis bg-success-subtle border border-success-subtle rounded-2">{{ update.created}}</small></span>
+    <span class="large-text">{{ update.name }}</span>
+    <br>
+    {% autoescape off %}
+      {{ update.text }}
+    {% endautoescape %}
+  {% empty %}
+      <br><hr>
+    Er zijn nog geen updates hier.
+  {% endfor %}
+
 {% endblock content %}
