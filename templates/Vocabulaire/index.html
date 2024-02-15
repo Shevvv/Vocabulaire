@@ -14,8 +14,8 @@
     <span class="large-text">{{ update.name }}</span>
     <br>
     {% autoescape off %}
-      CKEDITOR.replaceate.id }}")
-        {% autoescape of%}
+      {{ update.text }}
+    {% endautoescape %}
   {% empty %}
       <br><hr>
     Er zijn nog geen updates hier.

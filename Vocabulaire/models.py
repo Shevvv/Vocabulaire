@@ -31,7 +31,8 @@ class DutchWord(models.Model):
 
 
 class Homework(models.Model):
-    created = models.DateTimeField(null=True)
+    created = models.DateTimeField(null=True, blank=True)
+    visible = models.BooleanField(default=False)
     deadline = models.DateField()
     topic = models.CharField(max_length=200)
     done = models.BooleanField()

@@ -7,7 +7,7 @@ from datetime import datetime, date
 
 
 def index(request):
-    updates = Update.objects.order_by('created')
+    updates = Update.objects.order_by('-created')
     context = {'hour': datetime.now().hour, 'breadcrumb': [],
                'breadcrumbs_names': [], 'updates': updates}
     return render(request, "Vocabulaire/index.html", context)

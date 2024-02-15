@@ -27,6 +27,7 @@ class Command(BaseCommand):
                 update.save()
                 homework.created = timezone.make_aware(datetime.now(),
                                    timezone.get_current_timezone())
+                homework.visible = True
                 homework.save()
 
 
