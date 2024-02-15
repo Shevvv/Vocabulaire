@@ -1,14 +1,15 @@
 from django.shortcuts import render
 from django.urls import reverse
 from django.db.models.functions import Lower
-from .models import DutchWord, RussianWord, PartOfSpeech, Homework
+from .models import DutchWord, RussianWord, PartOfSpeech, Homework, Update
 from urllib.parse import unquote
 from datetime import datetime, date
 
 
 def index(request):
+    updates = Update.objects.order_by('created')
     context = {'hour': datetime.now().hour, 'breadcrumb': [],
-               'breadcrumbs_names': []}
+               'breadcrumbs_names': [], 'updates': updates}
     return render(request, "Vocabulaire/index.html", context)
 
 

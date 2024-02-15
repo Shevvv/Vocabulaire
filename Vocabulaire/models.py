@@ -31,7 +31,7 @@ class DutchWord(models.Model):
 
 
 class Homework(models.Model):
-    created = models.DateTimeField()
+    created = models.DateTimeField(null=True)
     deadline = models.DateField()
     topic = models.CharField(max_length=200)
     done = models.BooleanField()
@@ -48,3 +48,12 @@ class Task(models.Model):
     def __str__(self):
         return str(self.homework) + ". Opdracht #" + \
                str(list(self.homework.task_set.all()).index(self) + 1)
+
+
+class Update(models.Model):
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+    name = models.CharField(max_length=200)
+    text = RichTextField()
+
+    def __str__(self):
+        return str(self.created)
