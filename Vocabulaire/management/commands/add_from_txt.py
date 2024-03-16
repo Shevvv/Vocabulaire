@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
 from Vocabulaire.models import RussianWord, DutchWord, PartOfSpeech
 from django.db.utils import IntegrityError
+import re
 
 
 class Command(BaseCommand):
@@ -22,7 +23,7 @@ class Command(BaseCommand):
             russian_pos = retrieve_pos(russian_pos_str)
             russian_word.part_of_speech.add(russian_pos)
 
-            for dutch_str in dutchs_str.split(', '):
+            for dutch_str in re.split('; |, ', dutchs_str):
                 dutch, dutch_pos_str = str_to_lexeme(dutch_str)
                 dutch_word = retrieve_word(dutch, DutchWord)
                 dutch_pos = retrieve_pos(dutch_pos_str)

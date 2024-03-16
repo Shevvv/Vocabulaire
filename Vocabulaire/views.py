@@ -88,7 +88,7 @@ def dutch_word(request, word_lexeme):
 
 
 def homework(request):
-    homeworks = Homework.objects.order_by('-deadline')
+    homeworks = Homework.objects.filter(visible=True).order_by('-deadline')
     today = date.today()
     breadcrumb = ['homework']
     breadcrumb_names = [unquote(page)
